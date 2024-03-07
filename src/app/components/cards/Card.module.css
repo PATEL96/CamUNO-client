@@ -1,0 +1,74 @@
+.Card{
+	cursor: pointer;
+	position: relative;
+	height: 275px;
+	width: 200px;
+	border-radius: 8px;
+	font-size: xx-large;
+	font-weight: 600;
+	background-color: white;
+	transition: all ease 0.3s;
+	box-shadow: 0 0 15px #1c1c1c;
+	font-family:'Franklin Gothic Medium';
+}
+
+.Card:hover{
+	/* top: -15%; */
+	transform: translateY(-15%) scale(1.025);
+	box-shadow:0 0 30px #1c1c1c;
+	transition: all ease 0.3s;
+}
+
+.GameCard{
+	cursor: pointer;
+	font-family:'Franklin Gothic Medium';
+	position: absolute;
+	top: 0%;
+	left: 0%;
+	height: 275px;
+	width: 200px;
+	border-radius: 8px;
+	font-size: xx-large;
+	font-weight: 600;
+	background-color: white;
+	transition: all ease 0.3s;
+	box-shadow: 0 0 15px #1c1c1c;
+}
+
+
+.numberTop{
+	padding-top: 10px;
+	padding-bottom: 10px;
+	width: 50px;
+	text-align: center;
+	border-radius: 8px 0px 40px 0px;
+	position: absolute;
+	top: -2.5%;
+	left: -3%;
+	color: white;
+	transition: all ease 0.3s;
+}
+
+.numberBottom{
+	padding-top: 10px;
+	padding-bottom: 10px;
+	width: 50px;
+	text-align: center;
+	border-radius: 40px 0px 8px 0px;
+	position: absolute;
+	top: 80%;
+	right: -4%;
+	color: white;
+	transition: all ease 0.3s;
+}
+
+.mainNum{
+	position: absolute;
+	height: fit-content;
+	width: fit-content;
+	top: 50%;
+	left: 50%;
+	transform: translateX(-50%) translateY(-50%);
+	transition: all ease 0.3s;
+}
+
