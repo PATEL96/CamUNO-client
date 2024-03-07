@@ -8,10 +8,9 @@ type User = {
 
 type Props = {
     user: User,
-    pagetype: string,
 }
 
-export default function Card({ user, pagetype }: Props) {
+export default function Card({ user }: Props) {
 
     //console.log(user)
 
