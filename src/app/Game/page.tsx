@@ -66,7 +66,7 @@ const Game: React.FC<{}> = function() {
 		getParamsFromUrl();
 		if (!hasMounted.current) {
 			for (let i = 7; i >= 0; i--) {
-				const { color, rot } = randCol();
+				const { color } = randCol();
 				const{ card } = randNo(true);
 				setPlayerDeck((prevCards) => [
 					...prevCards,
