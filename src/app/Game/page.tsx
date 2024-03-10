@@ -1,17 +1,16 @@
 "use client"
 import React, { useEffect, useRef, useState } from "react"
-import { Card, EmptyCard, GameCards } from "../cards/Card";
+import { Card, EmptyCard, GameCards } from "../../components/cards/Card";
 import styles from './Game.module.css'
+import { io } from "socket.io-client";
+const socket = io("http://192.168.0.103:5000");
 
-type gameData = {
-	gameId: number;
-}
+const Game: React.FC<{}> = function() {
 
-const Game: React.FC<{sessionID: number; playerName: string}> = function({sessionID, playerName}) {
 	//? cards for Player And the Game
 	const [playerDeck, setPlayerDeck] = useState([]);
 	const [gameDeck, setGameDeck] = useState([]);
-	const [test, setTest] = useState("");
+	const [gameId, setGameId] = useState("");
 	//? cards for Player And the Game
 
 	//? colors required for the Game
@@ -20,6 +19,14 @@ const Game: React.FC<{sessionID: number; playerName: string}> = function({sessio
 	const blue = "#5555FF";
 	const green = "#55AA55";
 	//? colors required for the Game
+
+	const getParamsFromUrl = () => {
+        const params = new URLSearchParams(window.location.search);
+        const gameId = params.get('gameId');
+        if (gameId) {
+            setGameId(gameId);
+        }
+    };
 
 	// const randNo = () => Math.floor(Math.random() * 10);
 
@@ -56,6 +63,7 @@ const Game: React.FC<{sessionID: number; playerName: string}> = function({sessio
 	const hasMounted = useRef(false);
 	
 	useEffect(() => {
+		getParamsFromUrl();
 		if (!hasMounted.current) {
 			for (let i = 7; i >= 0; i--) {
 				const { color, rot } = randCol();
@@ -128,7 +136,11 @@ const Game: React.FC<{sessionID: number; playerName: string}> = function({sessio
 		}
 	}
 	//? Function to Place a card from Deck
-	
+
+	const handleLeave = () => {
+		socket.disconnect(() => {"raj"})
+	}
+
 	return (
 		<div className={styles.main}>
 			<div className={styles.Deck}>
@@ -142,7 +154,8 @@ const Game: React.FC<{sessionID: number; playerName: string}> = function({sessio
 					<div key={index} onClick={() => placeCard(index)}>{Cards}</div>
 					))}
 			</div>
-			{sessionID + " " +playerName}
+			{gameId.toString()}
+			<button onClick={handleLeave}>leave</button>
 		</div>
 	)
 }

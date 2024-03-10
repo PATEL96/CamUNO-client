@@ -1,7 +1,8 @@
 import { options } from "./api/auth/[...nextauth]/options"
 import { getServerSession } from "next-auth/next"
 import UserCard from "../components/UserCard"
-import Game from "../components/Game/Game"
+import Game from "./Game/page"
+import Lobby from "./Lobby/page"
 
 export default async function Home() {
   const session = await getServerSession(options)
@@ -11,11 +12,14 @@ export default async function Home() {
       {session ? (
         <>
           <UserCard user={session?.user} />
-          <Game sessionID={111} playerName="RAJ" />
+          {/* <Game sessionID={111} playerName="RAJ" /> */}
+          <Lobby />
         </>
       ) : (
-        // <h1 className="text-5xl">You Shall Not Pass!</h1>
-        <h1>lol</h1>
+        <>
+          <Lobby />
+          <h1>lol</h1>
+        </>
       )}
     </>
   )
