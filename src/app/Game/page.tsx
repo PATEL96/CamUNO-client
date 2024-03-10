@@ -8,8 +8,8 @@ const socket = io("http://192.168.0.103:5000");
 const Game: React.FC<{}> = function() {
 
 	//? cards for Player And the Game
-	const [playerDeck, setPlayerDeck] = useState([]);
-	const [gameDeck, setGameDeck] = useState([]);
+	const [playerDeck, setPlayerDeck]: any = useState([]);
+	const [gameDeck, setGameDeck]: any = useState([]);
 	const [gameId, setGameId] = useState("");
 	//? cards for Player And the Game
 
@@ -68,14 +68,14 @@ const Game: React.FC<{}> = function() {
 			for (let i = 7; i >= 0; i--) {
 				const { color } = randCol();
 				const{ card } = randNo(true);
-				setPlayerDeck((prevCards) => [
+				setPlayerDeck((prevCards: any) => [
 					...prevCards,
-					<Card name={card} color={color} key={prevCards.length} playaerDeck={playerDeck} />,
+					<Card name={card} color={color} key={prevCards.length} />,
 				]);
 			}
 			const {color} = randCol();
 			const{ card } = randNo(false);
-			setGameDeck((prevDeck) => [
+			setGameDeck((prevDeck: any) => [
 				...prevDeck,
 				<GameCards name={card} color={color} key={prevDeck.length} />
 			]);
@@ -86,8 +86,8 @@ const Game: React.FC<{}> = function() {
 	//? Giving out the Starting Hand for Begining the Game
 	
 	//? Updating Game after a user Plays a Card
-	const updateGamedeck = (Card) => {
-		setGameDeck((prevDeck) => [
+	const updateGamedeck = (Card: any) => {
+		setGameDeck((prevDeck: any) => [
 			...prevDeck,
 			<GameCards
 			key={prevDeck.length}
@@ -102,7 +102,7 @@ const Game: React.FC<{}> = function() {
 	const pickNewCard = () => {
 		const { color } = randCol();
 		const{ card } = randNo(true);
-		setPlayerDeck((prevCards) => [
+		setPlayerDeck((prevCards: any) => [
 			...prevCards,
 			<Card
 			name={card}
@@ -114,20 +114,20 @@ const Game: React.FC<{}> = function() {
 	//? Updating Players Hand After he picks a Card
 
 	//? Automated Sorting Algo to Sort al cards according to color and number
-	const sortedDeck = (a, b) => {
+	const sortedDeck = (a:any, b:any) => {
 		const ele1 = a.props.color.toLowerCase();
 		const ele2 = b.props.color.toLowerCase();
 		
 		return ele1.localeCompare(ele2);
 	}
 	
-	playerDeck.sort((a, b) => (a.props.name > b.props.name) ? 1 : -1);
+	playerDeck.sort((a: any, b:any) => (a.props.name > b.props.name) ? 1 : -1);
 	
 	const coloredDeck = playerDeck.slice().sort(sortedDeck);
 	//? Automated Sorting Algo to Sort al cards according to color and number
 	
 	//? Function to Place a card from Deck
-	const placeCard = (index) => {
+	const placeCard = (index: any) => {
 		const updatedDeck = [...coloredDeck];
 		if (coloredDeck[index].props.name == gameDeck[gameDeck.length - 1].props.name || coloredDeck[index].props.color == gameDeck[gameDeck.length - 1].props.color) {
 			updateGamedeck(coloredDeck[index]);
@@ -137,9 +137,9 @@ const Game: React.FC<{}> = function() {
 	}
 	//? Function to Place a card from Deck
 
-	const handleLeave = () => {
-		socket.disconnect(() => {"raj"})
-	}
+	// const handleLeave = () => {
+	// 	socket.disconnect(() => {"raj"})
+	// }
 
 	return (
 		<div className={styles.main}>
@@ -150,12 +150,12 @@ const Game: React.FC<{}> = function() {
 				{gameDeck}
 			</div>
 			<div className={styles.playerDeck}>
-				{coloredDeck.map((Cards, index) => (
+				{coloredDeck.map((Cards: any, index: any) => (
 					<div key={index} onClick={() => placeCard(index)}>{Cards}</div>
 					))}
 			</div>
 			{gameId.toString()}
-			<button onClick={handleLeave}>leave</button>
+			{/* <button onClick={handleLeave}>leave</button> */}
 		</div>
 	)
 }
