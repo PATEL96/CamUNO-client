@@ -11,13 +11,11 @@ export default async function Home() {
     <>
       {session ? (
         <>
-          <UserCard user={session?.user} />
           {/* <Game sessionID={111} playerName="RAJ" /> */}
           <Lobby />
         </>
       ) : (
         <>
-          <Lobby />
           <h1>lol</h1>
         </>
       )}

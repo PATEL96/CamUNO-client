@@ -1,9 +1,34 @@
 import type { NextAuthOptions } from 'next-auth'
+import Credentials from 'next-auth/providers/credentials'
 import GitHubProvider from 'next-auth/providers/github'
 import GoogleProvider from 'next-auth/providers/google'
 
 export const options: NextAuthOptions = {
     providers: [
+        Credentials({
+            name: "CamUNO",
+            credentials: {
+                userName: {
+                    label: "UserName",
+                    type: "text",
+                    placeholder: "UserName",
+                },
+                userPassword: {
+                    label: "Password",
+                    type: "password",
+                    placeholder: "Password"
+                },
+            },
+            async authorize(credentials) {
+                const user = { id: "96", name: "PATEL96", password: "rajvandan" }
+
+                if (credentials?.userName === user.name && credentials?.userPassword === user.password) {
+                    return user;
+                } else {
+                    return null;
+                }
+            },
+        }),
         GoogleProvider({
             clientId: process.env.GOOGLE_ID as string,
             clientSecret: process.env.GOOGLE_SECRET as string,
@@ -11,6 +36,6 @@ export const options: NextAuthOptions = {
         GitHubProvider({
             clientId: process.env.GITHUB_ID as string,
             clientSecret: process.env.GITHUB_SECRET as string,
-        }) 
+        })
     ],
 }

@@ -1,4 +1,5 @@
 import Image from "next/image"
+import {  PersonIcon } from "@radix-ui/react-icons"
 import { Button } from "@/components/ui/button"
 import {
   Dialog,
@@ -10,18 +11,9 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog"
 import Link from "next/link"
+import { User, Props } from "@/Types"
 
-type User = {
-  name?: string | null | undefined;
-  email?: string | null | undefined;
-  image?: string | null | undefined;
-} | undefined
-
-type Props = {
-  user: User,
-}
-
-export default function Card({ user }: Props) {
+export default function UserCard({ user }: Props) {
 
   const userName = user?.name ? (
     <div className="font-bold text-3xl">
@@ -38,7 +30,7 @@ export default function Card({ user }: Props) {
         alt={user?.name ?? "Profile Pic"}
         priority={true}
       />
-  ) : null
+  ) : <PersonIcon className="border-2 h-8 w-8 p-1 border-black dark:border-slate-500 drop-shadow-xl shadow-black rounded-full mx-auto" />
 
   return (
     <div className="absolute z-10 right-0 m-8">

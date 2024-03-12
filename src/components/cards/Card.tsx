@@ -1,20 +1,7 @@
 import { MouseEventHandler, useEffect, useState } from 'react'
+import type { Cards, playedCard } from '@/Types'
 import styles from './Card.module.css'
 
-
-type Cards = {
-	name: String
-	color: String
-}
-
-type emptyCard = {
-	addCard: Function
-}
-
-type playedCard = {
-	name: String
-	color: String
-}
 
 export function Card(data: Cards) {
 	return (
@@ -23,8 +10,8 @@ export function Card(data: Cards) {
 				data.name == "6" || data.name == "9" ?
 					<>
 						<div className={styles.numberTop} style={{ background: data.color as string, textDecoration: "underLine", textDecorationThickness: "3.5px" }}>{data.name}</div>
-						<div className={styles.mainNum} style={{ color: data.color as string, fontSize: "100px",textDecoration: "underLine" }} >{data.name}</div>
-						<div className={styles.numberBottom} style={{ background: data.color as string,textDecoration: "underLine", textDecorationThickness: "3.5px" }}>{data.name}</div>
+						<div className={styles.mainNum} style={{ color: data.color as string, fontSize: "100px", textDecoration: "underLine" }} >{data.name}</div>
+						<div className={styles.numberBottom} style={{ background: data.color as string, textDecoration: "underLine", textDecorationThickness: "3.5px" }}>{data.name}</div>
 					</> :
 					<>
 						<div className={styles.numberTop} style={{ background: data.color as string }}>{data.name}</div>
@@ -40,9 +27,9 @@ export function Card(data: Cards) {
 }
 
 export function EmptyCard(data: { addCard: MouseEventHandler<HTMLDivElement> }) {
-    return (
-        <div className={styles.Card} onClick={data.addCard}></div>
-    );
+	return (
+		<div className={styles.Card} onClick={data.addCard}></div>
+	);
 }
 
 export function GameCards(data: playedCard) {
@@ -59,8 +46,8 @@ export function GameCards(data: playedCard) {
 				data.name == "6" || data.name == "9" ?
 					<>
 						<div className={styles.numberTop} style={{ background: data.color as string, textDecoration: "underLine", textDecorationThickness: "3.5px" }}>{data.name}</div>
-						<div className={styles.mainNum} style={{ color: data.color as string, fontSize: "100px",textDecoration: "underLine" }} >{data.name}</div>
-						<div className={styles.numberBottom} style={{ background: data.color as string,textDecoration: "underLine", textDecorationThickness: "3.5px" }}>{data.name}</div>
+						<div className={styles.mainNum} style={{ color: data.color as string, fontSize: "100px", textDecoration: "underLine" }} >{data.name}</div>
+						<div className={styles.numberBottom} style={{ background: data.color as string, textDecoration: "underLine", textDecorationThickness: "3.5px" }}>{data.name}</div>
 					</> :
 					<>
 						<div className={styles.numberTop} style={{ background: data.color as string }}>{data.name}</div>
