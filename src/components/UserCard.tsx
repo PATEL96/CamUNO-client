@@ -11,7 +11,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog"
 import Link from "next/link"
-import { User, Props } from "@/Types"
+import { Props } from "@/Types"
 
 export default function UserCard({ user }: Props) {
 

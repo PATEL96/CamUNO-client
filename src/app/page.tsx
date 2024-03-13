@@ -16,6 +16,7 @@ export default async function Home() {
         </>
       ) : (
         <>
+          <Lobby />
           <h1>lol</h1>
         </>
       )}

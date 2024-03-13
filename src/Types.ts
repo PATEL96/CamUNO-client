@@ -1,7 +1,7 @@
 type User = {
-	name?: string | null | undefined;
-	email?: string | null | undefined;
-	image?: string | null | undefined;
+	name?: string | null;
+	email?: string | null;
+	image?: string | null;
 } | undefined
 
 type Props = {
