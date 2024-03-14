@@ -1,26 +1,26 @@
 "use client"
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import io from "socket.io-client";
 import { useRouter } from "next/navigation";
-import { options } from "../api/auth/[...nextauth]/options";
-import { getServerSession } from "next-auth";
+import { useSession } from "next-auth/react";
 
-export default async function Lobby() {
+export default function Lobby() {
   const [gameId, setGameId] = useState(0);
-  const [playerName, setPlayerName] = useState("");
+  const [playerName, setPlayerName]: any = useState();
   const [message, setMessage] = useState("");
   const [gameSettings, setGameSettings] = useState(2);
   const router = useRouter();
   const socket = io("http://134.209.155.223:5000");
   // const socket = io('http://192.168.0.102:5000')
 
-  const session = await getServerSession(options);
+  const {data: session} = useSession();
 
-  if(session?.user?.name){
-    const name = session?.user?.name;
-    setPlayerName(name);
-  }
+  useEffect(() => {
+    if(session){
+      setPlayerName(session.user?.name)
+    }
+  }, [session])
 
   const joinGame = () => {
     if (!gameId || !playerName) {

@@ -2,9 +2,6 @@
 import React, { useEffect, useRef, useState } from "react"
 import { Card, EmptyCard, GameCards } from "../../components/cards/Card";
 import styles from './Game.module.css'
-import { io } from "socket.io-client";
-const socket = io("http://134.209.155.223:5000");
-// const socket = io("http://192.168.0.102:5000");
 import { useRouter } from "next/navigation";
 
 function Game() {
