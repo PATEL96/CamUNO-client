@@ -4,6 +4,7 @@ import AuthProvider from './context/AuthProvider'
 import { options } from './api/auth/[...nextauth]/options'
 import { getServerSession } from 'next-auth'
 import UserCard from '@/components/UserCard'
+import SocketProvider from './context/SocketProvider'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -24,10 +25,12 @@ export default async function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <AuthProvider>
-          <UserCard user={session?.user} />
-          <main>
-            {children}
-          </main>
+          <SocketProvider>
+            <UserCard user={session?.user} />
+            <main>
+              {children}
+            </main>
+          </SocketProvider>
         </AuthProvider>
       </body>
     </html>

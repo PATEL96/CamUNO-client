@@ -4,17 +4,20 @@ import React, { useEffect, useState } from "react";
 import io from "socket.io-client";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
+import { useSocket } from "../context/SocketProvider";
 
 export default function Lobby() {
-  const [gameId, setGameId] = useState(0);
+  const [gameId, setGameId] = useState(1258);
   const [playerName, setPlayerName]: any = useState();
   const [message, setMessage] = useState("");
   const [gameSettings, setGameSettings] = useState(2);
   const router = useRouter();
-  const socket = io("http://134.209.155.223:5000");
-  // const socket = io('http://192.168.0.102:5000')
 
   const {data: session} = useSession();
+
+  const {socket} = useSocket();
+
+  console.log(socket.id);
 
   useEffect(() => {
     if(session){
@@ -58,9 +61,19 @@ export default function Lobby() {
     });
   };
 
+  const handleID = (event: any) => {
+    const val = event.target.value;
+
+    const intGame = parseInt(val)
+
+    setGameId(intGame);
+
+  }
+
   return (
     <div>
       <h1>Welcome to the Game Lobby</h1>
+      <input type="number" placeholder="GameID" value={gameId} onChange={handleID} style={{color: "black"}} />
       <button onClick={joinGame}>Join Game</button>
       <button onClick={hostGame}>Host Game</button>
       <br />

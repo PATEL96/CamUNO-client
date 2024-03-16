@@ -3,6 +3,7 @@ import React, { useEffect, useRef, useState } from "react"
 import { Card, EmptyCard, GameCards } from "../../components/cards/Card";
 import styles from './Game.module.css'
 import { useRouter } from "next/navigation";
+import { useSocket } from "../context/SocketProvider";
 
 function Game() {
 
@@ -11,6 +12,9 @@ function Game() {
 	const [gameDeck, setGameDeck]: any = useState([]);
 	const [gameId, setGameId] = useState("");
 	const [saidUNO, setSaidUNO] = useState(false);
+	const { socket } = useSocket();
+
+	console.log(socket.id);
 	//? cards for Player And the Game
 
 	//? colors required for the Game
@@ -67,14 +71,23 @@ function Game() {
 					<Card name={card} color={color} key={prevCards.length} />,
 				]);
 			}
-			const { color } = randCol();
-			const { card } = randNo(false);
-			setGameDeck((prevDeck: any) => [
-				...prevDeck,
-				<GameCards name={card} color={color} key={prevDeck.length} />
-			]);
+
+			socket.emit('check-host');
+
+			socket.on('valid-host', (data) => {
+				const { isValid } = data;
+				console.log(isValid);
+				if (isValid) {
+					const { color } = randCol();
+					const { card } = randNo(false);
+					setGameDeck((prevDeck: any) => [
+						...prevDeck,
+						<GameCards name={card} color={color} key={prevDeck.length} />
+					]);
+				}
+			});
+
 			hasMounted.current = true;
-			// socket.emit('join', {"Name": "RAJ", "GameId": gameId})
 		}
 	}, []);
 	//? Giving out the Starting Hand for Begining the Game
@@ -89,6 +102,14 @@ function Game() {
 				color={Card.props.color}
 			/>,
 		]);
+		const cardData = {
+			name: Card.props.name as string,
+			color: Card.props.color as string
+		}
+
+		console.log(cardData);
+
+		socket.emit('set-game-deck', { gameId, cardData });
 	};
 	//? Updating Game after a user Plays a Card
 
@@ -129,10 +150,10 @@ function Game() {
 	}
 
 	const sayUno = (playerDeck: any) => {
-		if(playerDeck.length === 1){
+		if (playerDeck.length === 1) {
 			prompt("Say Uno");
 			setSaidUNO(true);
-		}else if(playerDeck.length > 1){
+		} else if (playerDeck.length > 1) {
 			setSaidUNO(false);
 		}
 	}
@@ -148,6 +169,21 @@ function Game() {
 		}
 	}
 	//? Function to Place a card from Deck
+
+	useEffect(() => {
+
+		socket.on('card', (data) => {
+
+			const { cardData } = data;
+
+			console.log(cardData);
+		});
+
+		socket.on('game-deck', (data) => {
+			const { gameId, deck } = data;
+			console.log(deck);
+		})
+	}, []);
 
 
 	return (
