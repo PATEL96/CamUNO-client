@@ -18,4 +18,9 @@ type playedCard = {
 	color: String
 }
 
-export type { User, Props, playedCard, Cards };
+type GameCardsType = {
+	gameID?: number | null;
+	Cards: Cards;
+}
+
+export type { User, Props, playedCard, Cards, GameCardsType };
