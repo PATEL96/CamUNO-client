@@ -8,18 +8,16 @@ export default async function Home() {
   const session = await getServerSession(options)
 
   return (
-    <>
+    <div>
       {session ? (
         <>
-          {/* <Game sessionID={111} playerName="RAJ" /> */}
           <Lobby />
         </>
       ) : (
         <>
-          <Lobby />
-          <h1>lol</h1>
+          <h1>PLease Login TO Continue</h1>
         </>
       )}
-    </>
+    </div>
   )
 }

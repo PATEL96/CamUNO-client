@@ -28,7 +28,7 @@ export function Card(data: Cards) {
 
 export function EmptyCard(data: { addCard: MouseEventHandler<HTMLDivElement> }) {
 	return (
-		<div className={styles.Card} onClick={data.addCard}></div>
+		<div className={styles.EmptyCard} onClick={data.addCard}></div>
 	);
 }
 

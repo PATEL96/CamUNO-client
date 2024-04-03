@@ -1,0 +1,46 @@
+.lobbyMain{
+	display: flex;
+	align-items: center;
+	flex-direction: column;
+	font-size: x-large;
+	font-family: "Gulya";
+	height: 100svh;
+	background-color: #1c1c1c4f;
+	backdrop-filter: blur(10px);
+}
+
+.container{
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-direction: column;
+	height: 50svh;
+	font-size: xx-large;
+	font-weight: 200;
+	font-family: "Gulya";
+}
+
+.welcome{
+	padding: 30px;
+	font-size: 40px;
+}
+
+.JoinButton{
+	padding: 20px;
+	transition: all 0.3s ease;
+}
+
+.JoinButton:hover{
+	transform: scale(1.5);
+	transition: all 0.3s ease;
+}
+
+.HostButton{
+	padding: 20px;
+	transition: all 0.3s ease;
+}
+
+.HostButton:hover{
+	transform: scale(1.5);
+	transition: all 0.3s ease;
+}

@@ -9,10 +9,27 @@
 	background-color: white;
 	transition: all ease 0.3s;
 	box-shadow: 0 0 15px #1c1c1c;
-	font-family:'Franklin Gothic Medium';
+	font-family:'Monster';
+}
+.EmptyCard{
+	cursor: pointer;
+	position: relative;
+	height: 275px;
+	width: 200px;
+	border-radius: 8px;
+	font-size: xx-large;
+	font-weight: 600;
+	background-color: rgb(228, 227, 227);
+	background-image: url("../images/UNO_Logo.svg.png");
+	background-size: contain;
+	background-repeat: no-repeat;
+	background-position: 50%;
+	transition: all ease 0.3s;
+	box-shadow: 0 0 15px #1c1c1c;
+	font-family:'Monster';
 }
 
-.Card:hover{
+.Card:hover, .EmptyCard:hover{
 	/* top: -15%; */
 	transform: translateY(-15%) scale(1.025);
 	box-shadow:0 0 30px #1c1c1c;
@@ -21,7 +38,7 @@
 
 .GameCard{
 	cursor: pointer;
-	font-family:'Franklin Gothic Medium';
+	font-family:'Monster';
 	position: absolute;
 	top: 0%;
 	left: 0%;

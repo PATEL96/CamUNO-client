@@ -1,10 +1,9 @@
 "use client"
-import React, { useEffect, useRef, useState } from "react"
+import React, { use, useEffect, useRef, useState } from "react"
 import { Card, EmptyCard, GameCards } from "../../components/cards/Card";
 import styles from './Game.module.css'
 import { useRouter } from "next/navigation";
 import { useSocket } from "../context/SocketProvider";
-import { GameCardsType, Cards } from "@/Types";
 import { useGameIdContext } from "../context/GameIdProvider";
 
 function Game() {
@@ -13,9 +12,17 @@ function Game() {
 	const [playerDeck, setPlayerDeck]: any = useState([]);
 	const [gameDeck, setGameDeck]: any = useState([]);
 	const [saidUNO, setSaidUNO] = useState(false);
+	const [chance, setChance] = useState();
 	const { socket } = useSocket();
+	const playerId = socket.id;
 
-	console.log(socket.id);
+	const Chances = (players: any[]) => {
+		const currentPlayerIndex = players.indexOf(chance);
+		const nextPlayerIndex = (currentPlayerIndex + 1) % players.length;
+		setChance(players[nextPlayerIndex]);
+	}
+
+	// console.log(socket.id);
 	//? cards for Player And the Game
 
 	//? colors required for the Game
@@ -36,7 +43,7 @@ function Game() {
 			const num = Math.floor(Math.random() * 10).toString();
 			return { card: num }
 		} else {
-			const cards = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "skip", "rev", "+2"]
+			const cards = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "🚫", "🔀", "+2"]
 			const num = cards[Math.floor(Math.random() * cards.length)]
 			return { card: num }
 		}
@@ -62,13 +69,6 @@ function Game() {
 
 		socket.emit('update-game-deck', data);
 	}
-
-	const getServerDeck = () => {
-		socket.on('set-game-deck', (data: any) => {
-			console.log("line 75", data);
-		});
-	}
-
 
 	useEffect(() => {
 		const id = value;
@@ -110,28 +110,26 @@ function Game() {
 						...prevDeck,
 						<GameCards name={card} color={color} key={prevDeck.length} />
 					]);
+					setChance(socket.id);
 				}
 			});
-
-			socket.on('take-deck', (data: any) => {
-				const { cardOnTop } = data
-
-				const { color, name } = cardOnTop
-
-				setGameDeck((prevDeck: any) => [
-					...prevDeck,
-					<GameCards name={name} color={color} key={prevDeck.length} />
-				])
-			})
-
 
 			hasMounted.current = true;
 		}
 
+		socket.on('take-deck', (data: any) => {
+			const { cardOnTop } = data
 
+			const { color, name } = cardOnTop
 
-	}, [gameDeck]);
+			setGameDeck((prevDeck: any) => [
+				...prevDeck,
+				<GameCards name={name} color={color} key={prevDeck.length} />
+			])
+		})
+	});
 	//? Giving out the Starting Hand for Begining the Game
+
 
 	//? Updating Game after a user Plays a Card
 	const updateGamedeck = (Card: any) => {
@@ -151,8 +149,23 @@ function Game() {
 	};
 	//? Updating Game after a user Plays a Card
 
+	const checkChance = () => {
+		var ch = false
+		socket.on('next-chance', (data: any) => {
+			const { nextChance } = data
+
+			if (nextChance == playerId) {
+				console.log("hii")
+				ch = true;
+			}
+		})
+
+		return ch;
+	}
+
 	//? Updating Players Hand After he picks a Card
 	const pickNewCard = () => {
+
 		const { color } = randCol();
 		const { card } = randNo(true);
 		setPlayerDeck((prevCards: any) => [
@@ -163,6 +176,11 @@ function Game() {
 				color={color}
 			/>,
 		]);
+		const playedData = {
+			gameId: value,
+			playerId: socket.id,
+		}
+		socket.emit('i-played', playedData)
 	};
 	//? Updating Players Hand After he picks a Card
 
@@ -204,6 +222,11 @@ function Game() {
 			setPlayerDeck(updatedDeck);
 			sayUno(updatedDeck);
 			checkWin(updatedDeck);
+			const playedData = {
+				gameId: value,
+				playerId: socket.id,
+			}
+			socket.emit('i-played', playedData)
 		}
 	}
 	//? Function to Place a card from Deck
